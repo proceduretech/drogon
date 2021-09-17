@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/proceduretech/drogon/platform"
 )
 
 func main() {
@@ -12,6 +13,8 @@ func main() {
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello World!")
 	})
+
+	platform.InitializeDB()
 
 	log.Fatal(app.Listen(":3001"))
 }
