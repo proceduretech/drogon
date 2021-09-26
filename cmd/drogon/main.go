@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/proceduretech/drogon/platform"
 )
 
 func main() {
@@ -13,5 +14,9 @@ func main() {
 		return c.SendString("Hello World!")
 	})
 
+	platform.InitializeDatabase()
+
 	log.Fatal(app.Listen(":3001"))
+
+	defer platform.GetDatabase().Close()
 }
