@@ -9,7 +9,10 @@ import (
 	_ "github.com/lib/pq"
 )
 
-var database *sql.DB
+var (
+	database *sql.DB
+)
+
 var once sync.Once
 
 const (
@@ -19,26 +22,25 @@ const (
 	dbname = "drogon"
 )
 
-func InitializeDB() {
+func InitializeDatabase() {
 	once.Do(func() {
 		psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 			"dbname=%s sslmode=disable",
 			host, port, user, dbname)
 
-		db, err := sql.Open("postgres", psqlInfo)
+		var error error
+		database, error = sql.Open("postgres", psqlInfo)
 
-		if err != nil {
-			log.Fatal(err)
+		if error != nil {
+			log.Fatal(error)
 		}
 
-		defer database.Close()
-		err = db.Ping()
+		error = database.Ping()
 
-		if err != nil {
-			log.Fatal(err)
+		if error != nil {
+			log.Fatal(error)
 		}
 
-		database = db
 		log.Println("Database connection successfully made")
 	})
 }

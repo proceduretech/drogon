@@ -14,7 +14,9 @@ func main() {
 		return c.SendString("Hello World!")
 	})
 
-	platform.InitializeDB()
+	platform.InitializeDatabase()
 
 	log.Fatal(app.Listen(":3001"))
+
+	defer platform.GetDatabase().Close()
 }
